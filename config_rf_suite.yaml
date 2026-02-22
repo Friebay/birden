@@ -1,0 +1,41 @@
+seed: 1234
+
+project:
+  workdir: /scratch/lustre/home/$USER/exp_rf_suite
+
+data:
+  input_csv: /scratch/lustre/home/$USER/classification_with_c110_d110_errors_snr.csv
+  split_manifest: /scratch/lustre/home/$USER/exp_rf_suite/splits/splits_manifest.parquet
+  id_col: source_id
+  y_col: y
+  results_subdir: results_rf_suite
+
+models:
+  n_param_samples: 24
+
+experiment:
+  n_bootstrap: 50
+  thr_grid_size: 600
+
+  # Column naming in your CSV (verified from the provided dataset header):
+  #   c000..c109, d000..d109
+  #   bp_err_00..bp_err_54 (+ possibly summaries), rp_err_...
+  #   bp_snr_00..bp_snr_54 (+ possibly summaries), rp_snr_...
+  feature_sets:
+    c110:
+      prefixes: ["c"]
+    c110_d110:
+      prefixes: ["c", "d"]
+
+    c110_errors:
+      prefixes: ["c", "bp_err_", "rp_err_"]
+    c110_d110_errors:
+      prefixes: ["c", "d", "bp_err_", "rp_err_"]
+
+    c110_snr:
+      prefixes: ["c", "bp_snr_", "rp_snr_"]
+    c110_d110_snr:
+      prefixes: ["c", "d", "bp_snr_", "rp_snr_"]
+
+    c110_d110_errors_snr:
+      prefixes: ["c", "d", "bp_err_", "rp_err_", "bp_snr_", "rp_snr_"]
